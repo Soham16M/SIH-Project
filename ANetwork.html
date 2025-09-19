@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Network - AlumniConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #7e57c2;
+        }
+
+        .search-bar {
+            display: flex;
+            background: #f5f7f9;
+            border-radius: 20px;
+            padding: 8px 15px;
+            width: 400px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin: 10px 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .view-all {
+            font-size: 14px;
+            color: #7e57c2;
+            text-decoration: none;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #7e57c2;
+            color: #fff;
+            border-color: #7e57c2;
+        }
+
+        .alumni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .alumni-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .alumni-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(126, 87, 194, 0.1);
+        }
+
+        .alumni-header {
+            background: linear-gradient(to right, #7e57c2, #9575cd);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .alumni-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 15px;
+            overflow: hidden;
+        }
+
+        .alumni-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .alumni-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .alumni-title {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .alumni-content {
+            padding: 20px;
+        }
+
+        .alumni-details {
+            margin-bottom: 15px;
+        }
+
+        .alumni-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .alumni-detail i {
+            margin-right: 10px;
+            color: #7e57c2;
+            width: 20px;
+        }
+
+        .alumni-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-connect {
+            padding: 8px 20px;
+            background: #7e57c2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .btn-message {
+            padding: 8px 15px;
+            background: #fff;
+            color: #7e57c2;
+            border: 1px solid #7e57c2;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .pagination button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination button.active {
+            background: #7e57c2;
+            color: #fff;
+            border-color: #7e57c2;
+        }
+
+        @media (max-width: 992px) {
+            .alumni-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin: 15px 0;
+            }
+            
+            .alumni-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="navigation.js"></script>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">AlumniConnect</div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search alumni by name, company, or skills...">
+            </div>
+            <div class="user-profile">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Alex Carter">
+                <span>Alex Carter</span>
+            </div>
+        </div>
+
+        <!-- Alumni Network Section -->
+        <div class="section-title">
+            <h2>Alumni Network</h2>
+            <a href="#" class="view-all">View All Alumni</a>
+        </div>
+
+        <div class="filters">
+            <div class="filter-btn active">All Alumni</div>
+            <div class="filter-btn">Recently Active</div>
+            <div class="filter-btn">My Connections</div>
+            <div class="filter-btn">Tech Industry</div>
+            <div class="filter-btn">Finance</div>
+            <div class="filter-btn">Healthcare</div>
+            <div class="filter-btn">Class of 2020</div>
+        </div>
+
+        <!-- Alumni Grid -->
+        <div class="alumni-grid">
+            <!-- Alumni 1 -->
+            <div class="alumni-card">
+                <div class="alumni-header">
+                    <div class="alumni-image">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson">
+                    </div>
+                    <div class="alumni-name">Sarah Johnson</div>
+                    <div class="alumni-title">Senior Data Scientist at TechCorp</div>
+                </div>
+                <div class="alumni-content">
+                    <div class="alumni-details">
+                        <div class="alumni-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Class of 2018, Computer Science</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>San Francisco, CA</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Data Science, Machine Learning, AI</span>
+                        </div>
+                    </div>
+                    <div class="alumni-actions">
+                        <button class="btn-connect">Connect</button>
+                        <button class="btn-message"><i class="fas fa-envelope"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alumni 2 -->
+            <div class="alumni-card">
+                <div class="alumni-header">
+                    <div class="alumni-image">
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Michael Chen">
+                    </div>
+                    <div class="alumni-name">Michael Chen</div>
+                    <div class="alumni-title">Software Engineer at InnovateSoft</div>
+                </div>
+                <div class="alumni-content">
+                    <div class="alumni-details">
+                        <div class="alumni-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Class of 2020, Software Engineering</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Remote</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Web Development, React, Node.js</span>
+                        </div>
+                    </div>
+                    <div class="alumni-actions">
+                        <button class="btn-connect">Connect</button>
+                        <button class="btn-message"><i class="fas fa-envelope"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alumni 3 -->
+            <div class="alumni-card">
+                <div class="alumni-header">
+                    <div class="alumni-image">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Jessica Williams">
+                    </div>
+                    <div class="alumni-name">Jessica Williams</div>
+                    <div class="alumni-title">Product Manager at NextGen Solutions</div>
+                </div>
+                <div class="alumni-content">
+                    <div class="alumni-details">
+                        <div class="alumni-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Class of 2015, Business Administration</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>New York, NY</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Product Management, UX Design, Strategy</span>
+                        </div>
+                    </div>
+                    <div class="alumni-actions">
+                        <button class="btn-connect">Connect</button>
+                        <button class="btn-message"><i class="fas fa-envelope"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alumni 4 -->
+            <div class="alumni-card">
+                <div class="alumni-header">
+                    <div class="alumni-image">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="David Wilson">
+                    </div>
+                    <div class="alumni-name">David Wilson</div>
+                    <div class="alumni-title">Marketing Director at BrandWorks</div>
+                </div>
+                <div class="alumni-content">
+                    <div class="alumni-details">
+                        <div class="alumni-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Class of 2012, Marketing</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Chicago, IL</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Digital Marketing, Brand Strategy, SEO</span>
+                        </div>
+                    </div>
+                    <div class="alumni-actions">
+                        <button class="btn-connect">Connect</button>
+                        <button class="btn-message"><i class="fas fa-envelope"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alumni 5 -->
+            <div class="alumni-card">
+                <div class="alumni-header">
+                    <div class="alumni-image">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Emily Rodriguez">
+                    </div>
+                    <div class="alumni-name">Emily Rodriguez</div>
+                    <div class="alumni-title">UX Designer at CreativeLabs</div>
+                </div>
+                <div class="alumni-content">
+                    <div class="alumni-details">
+                        <div class="alumni-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Class of 2019, Design</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Austin, TX</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>UI/UX Design, Product Design, Research</span>
+                        </div>
+                    </div>
+                    <div class="alumni-actions">
+                        <button class="btn-connect">Connect</button>
+                        <button class="btn-message"><i class="fas fa-envelope"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alumni 6 -->
+            <div class="alumni-card">
+                <div class="alumni-header">
+                    <div class="alumni-image">
+                        <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="James Thompson">
+                    </div>
+                    <div class="alumni-name">James Thompson</div>
+                    <div class="alumni-title">Financial Analyst at CapitalOne</div>
+                </div>
+                <div class="alumni-content">
+                    <div class="alumni-details">
+                        <div class="alumni-detail">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Class of 2017, Finance</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Boston, MA</span>
+                        </div>
+                        <div class="alumni-detail">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Financial Analysis, Investments, Risk Management</span>
+                        </div>
+                    </div>
+                    <div class="alumni-actions">
+                        <button class="btn-connect">Connect</button>
+                        <button class="btn-message"><i class="fas fa-envelope"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button><i class="fas fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Simple functionality for connect buttons
+        document.querySelectorAll('.btn-connect').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.textContent === 'Connect') {
+                    this.textContent = 'Connected';
+                    this.style.backgroundColor = '#28a745';
+                } else {
+                    this.textContent = 'Connect';
+                    this.style.backgroundColor = '#7e57c2';
+                }
+            });
+        });
+
+        // Filter buttons functionality
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

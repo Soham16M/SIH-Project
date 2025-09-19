@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AlumnEye - Connect, Grow, Succeed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Enhanced light purple theme */
+    :root {
+      --primary-color: #7e3af2;
+      --primary-light: #9f7aea;
+      --primary-dark: #6c2bd9;
+      --accent-color: #c3b3f6;
+      --text-color: #38235d;
+      --light-bg: #f8fafc;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* Hero gradient background */
+    .hero-gradient {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+    }
+    
+    /* Feature card hover */
+    .feature-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(159, 122, 234, 0.3);
+      box-shadow:
+        0 25px 50px -12px rgba(126, 58, 242, 0.15),
+        0 10px 20px -5px rgba(126, 58, 242, 0.1);
+    }
+    
+    /* Testimonial card hover */
+    .testimonial-card {
+      transition: all 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      box-shadow:
+        0 15px 30px rgba(126, 58, 242, 0.1);
+    }
+    
+    /* Stats number gradient text */
+    .stats-number {
+      font-size: 2.75rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.025em;
+    }
+    
+    /* Button styles */
+    .btn-primary {
+      background-color: white;
+      color: var(--primary-color);
+      font-weight: 600;
+      padding: 0.875rem 1.75rem;
+      border-radius: 0.625rem;
+      box-shadow: 0 6px 12px rgba(126, 58, 242, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background-color: var(--accent-color);
+      color: var(--text-color);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(126, 58, 242, 0.25);
+      outline: none;
+    }
+    
+    /* Navigation styles */
+    nav {
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    nav .nav-links a {
+      color: #4b5563;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    
+    nav .nav-links a:hover,
+    nav .nav-links a:focus {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+      outline: none;
+    }
+    
+    /* Footer link hover */
+    footer a:hover,
+    footer a:focus {
+      color: white;
+      transform: translateX(4px);
+      outline: none;
+    }
+    
+    /* Purple theme adjustments */
+    .btn-secondary {
+      background-color: transparent;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      padding: 0.875rem 1.75rem;
+      border-radius: 0.625rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+      background-color: white;
+      color: var(--primary-color);
+      border-color: white;
+      transform: translateY(-3px);
+      outline: none;
+    }
+    
+    .icon-bg {
+      background: linear-gradient(135deg, rgba(159, 122, 234, 0.15) 0%, rgba(126, 58, 242, 0.15) 100%);
+    }
+    
+    /* Section titles */
+    .section-title {
+      font-weight: 700;
+      color: #1f2937;
+      letter-spacing: -0.025em;
+    }
+    
+    .section-subtitle {
+      color: #6b7280;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+    
+    /* Enhanced card styling */
+    .card {
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+    
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+      -webkit-text-fill-color: transparent;
+    }
+    
+    /* Subtle animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+  <script src="navigation.js"></script>
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm fixed w-full z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <!-- Logo and brand name -->
+        <div class="flex items-center space-x-8">
+          <div class="flex items-center space-x-3">
+            <i data-lucide="graduation-cap" class="h-8 w-8" style="color: #7e3af2;"></i>
+            <span class="text-xl font-bold text-gray-800 select-none">AlumnEye</span>
+          </div>
+          
+          <!-- Navigation links on the left -->
+          <div class="hidden md:flex md:space-x-8 nav-links">
+            <a href="#features" class="border-b-2 border-transparent hover:border-purple-600 transition-colors duration-300 text-gray-700 hover:text-purple-700 font-medium">Features</a>
+            <a href="#about" class="border-b-2 border-transparent hover:border-purple-600 transition-colors duration-300 text-gray-700 hover:text-purple-700 font-medium">About Us</a>
+            <a href="#contact" class="border-b-2 border-transparent hover:border-purple-600 transition-colors duration-300 text-gray-700 hover:text-purple-700 font-medium">Contact</a>
+          </div>
+        </div>
+        
+        <!-- Login button on the right -->
+        <div class="hidden md:block">
+          <a href="login.html" class="btn-primary">Login</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-gradient pt-24 pb-16 md:pt-32 md:pb-24 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+      <div class="md:w-1/2 animate-fade-in">
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight max-w-xl">Connect with Your Alumni Community</h1>
+        <p class="mt-4 text-xl text-purple-100 max-w-lg opacity-90">Reconnect with old friends, discover career opportunities, and give back to your institution.</p>
+        <div class="mt-8 flex space-x-4">
+          <a href="index.html" class="btn-primary">Get Started</a>
+          <a href="#features" class="btn-secondary">Learn More</a>
+        </div>
+      </div>
+      <div class="hidden md:block md:w-2/5 mt-10 md:mt-0">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Alumni networking" class="rounded-xl shadow-xl transform hover:scale-105 transition duration-700" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section id="stats" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="section-title text-3xl md:text-4xl mb-4">Our Growing Community</h2>
+      <p class="section-subtitle text-lg max-w-2xl mx-auto mb-16">Join thousand of students and alumni who are already benefiting from our network</p>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div class="animate-fade-in" style="animation-delay: 0.1s;">
+          <div class="text-4xl font-bold text-indigo-600">15K+</div>
+          <p class="text-gray-600 mt-3 font-medium">Active Members</p>
+        </div>
+        <div class="animate-fade-in" style="animation-delay: 0.2s;">
+          <div class="text-4xl font-bold text-indigo-600">42</div>
+          <p class="text-gray-600 mt-3 font-medium">Countries Represented</p>
+        </div>
+        <div class="animate-fade-in" style="animation-delay: 0.3s;">
+          <div class="text-4xl font-bold text-indigo-600">2.3K+</div>
+          <p class="text-gray-600 mt-3 font-medium">Job Opportunities</p>
+        </div>
+        <div class="animate-fade-in" style="animation-delay: 0.4s;">
+          <div class="text-4xl font-bold text-indigo-600">96%</div>
+          <p class="text-gray-600 mt-3 font-medium">Satisfaction Rate</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="section-title text-3xl md:text-4xl mb-4">Why Join Our Alumni Network?</h2>
+      <p class="section-subtitle text-lg max-w-2xl mx-auto mb-16">Discover the benefits of being part of our growing community</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 animate-fade-in" style="animation-delay: 0.1s;">
+          <div class="w-14 h-14 icon-bg rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i data-lucide="users" class="w-7 h-7" style="color: #7e3af2;"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Mentoring</h3>
+          <p class="text-gray-600 leading-relaxed">Connect with mentors and mentees to share knowledge and experience across generations.</p>
+        </div>
+        <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 animate-fade-in" style="animation-delay: 0.2s;">
+          <div class="w-14 h-14 icon-bg rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i data-lucide="bell" class="w-7 h-7" style="color: #7e3af2;"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Alumni Updates</h3>
+          <p class="text-gray-600 leading-relaxed">Stay informed about news, achievements, and milestones from your fellow alumni.</p>
+        </div>
+        <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 animate-fade-in" style="animation-delay: 0.3s;">
+          <div class="w-14 h-14 icon-bg rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i data-lucide="calendar" class="w-7 h-7" style="color: #7e3af2;"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Events</h3>
+          <p class="text-gray-600 leading-relaxed">Participate in alumni events, webinars, and reunions to stay connected.</p>
+        </div>
+        <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300 animate-fade-in" style="animation-delay: 0.4s;">
+          <div class="w-14 h-14 icon-bg rounded-xl flex items-center justify-center mb-5 mx-auto">
+            <i data-lucide="heart-handshake" class="w-7 h-7" style="color: #7e3af2;"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Fund Raising</h3>
+          <p class="text-gray-600 leading-relaxed">Support your alma mater and contribute to initiatives that matter to the community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="section-title text-3xl md:text-4xl mb-4">What Our Students Alumni Say</h2>
+      <p class="section-subtitle text-lg max-w-2xl mx-auto mb-16">Hear from members who have benefited from our network</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="testimonial-card bg-white p-8 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in" style="animation-delay: 0.1s;">
+          <div class="flex items-center mb-5">
+            <div class="w-12 h-12 icon-bg rounded-full flex items-center justify-center">
+              <i data-lucide="user" class="w-6 h-6" style="color: #7e3af2;"></i>
+            </div>
+            <div class="ml-4 text-left">
+              <h4 class="font-semibold text-gray-800">Sarah Johnson</h4>
+              <p class="text-purple-600 text-sm font-medium">Class of 2015</p>
+            </div>
+          </div>
+          <p class="text-gray-600 leading-relaxed text-left">"The mentoring program connected me with an industry expert who guided my career transition."</p>
+        </div>
+        <div class="testimonial-card bg-white p-8 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in" style="animation-delay: 0.2s;">
+          <div class="flex items-center mb-5">
+            <div class="w-12 h-12 icon-bg rounded-full flex items-center justify-center">
+              <i data-lucide="user" class="w-6 h-6" style="color: #7e3af2;"></i>
+            </div>
+            <div class="ml-4 text-left">
+              <h4 class="font-semibold text-gray-800">Michael Chen</h4>
+              <p class="text-purple-600 text-sm font-medium">Class of 2010</p>
+            </div>
+          </div>
+          <p class="text-gray-600 leading-relaxed text-left">"The alumni updates keep me connected to my university community no matter where I am in the world."</p>
+        </div>
+        <div class="testimonial-card bg-white p-8 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in" style="animation-delay: 0.3s;">
+          <div class="flex items-center mb-5">
+            <div class="w-12 h-12 icon-bg rounded-full flex items-center justify-center">
+              <i data-lucide="user" class="w-6 h-6" style="color: #7e3af2;"></i>
+            </div>
+            <div class="ml-4 text-left">
+              <h4 class="font-semibold text-gray-800">Priya Sharma</h4>
+              <p class="text-purple-600 text-sm font-medium">Class of 2018</p>
+            </div>
+          </div>
+          <p class="text-gray-600 leading-relaxed text-left">"I've attended three global reunions through this platform and reconnected with friends from my graduating class."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 hero-gradient text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-5">Ready to Join Your Alumni Community?</h2>
+      <p class="text-xl text-purple-100 mb-10 opacity-90">Sign up today and start connecting with fellow alumni</p>
+      <a href="index.html" class="bg-white text-purple-600 px-10 py-4 rounded-xl font-semibold shadow-lg hover:bg-gray-50 transition duration-300 inline-block transform hover:-translate-y-1">Sign Up Now</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center">
+            <i data-lucide="graduation-cap" class="h-8 w-8" style="color: #9f7aea;"></i>
+            <span class="ml-3 text-xl font-bold">AlumnEye</span>
+          </div>
+          <p class="mt-5 text-gray-400 leading-relaxed">Connecting graduates across generations and geographies.</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-5">Quick Links</h3>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-all duration-300 flex items-center">About Us <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-all duration-300 flex items-center">Events <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-all duration-300 flex items-center">Careers <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-all duration-300 flex items-center">Contact <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-5">Resources</h3>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-all duration-300 flex items-center">Blog <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-all duration-300 flex items-center">FAQ <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-all duration-300 flex items-center">Support <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-5">Connect With Us</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-all duration-300 transform hover:-translate-y-1 p-2 rounded-full bg-gray-800 hover:bg-purple-700" aria-label="Facebook">
+              <i data-lucide="facebook" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-all duration-300 transform hover:-translate-y-1 p-2 rounded-full bg-gray-800 hover:bg-purple-700" aria-label="Twitter">
+              <i data-lucide="twitter" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-all duration-300 transform hover:-translate-y-1 p-2 rounded-full bg-gray-800 hover:bg-purple-700" aria-label="LinkedIn">
+              <i data-lucide="linkedin" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-all duration-300 transform hover:-translate-y-1 p-2 rounded-full bg-gray-800 hover:bg-purple-700" aria-label="Instagram">
+              <i data-lucide="instagram" class="w-5 h-5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-12 pt-10 text-center text-gray-400">
+        <p>&copy; 2023 AlumnEye. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

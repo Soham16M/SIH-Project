@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - AlumniConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7E57C2;
+            --primary-light: #e6dcf8;
+            --primary-lighter: #f4f0ff;
+            --text: #333344;
+            --text-light: #666677;
+            --background: #f9f9fc;
+            --card-bg: #ffffff;
+            --border: #e2e2e9;
+            --card-shadow: 0 4px 12px rgba(126, 87, 194, 0.08);
+            --success: #68b968;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--card-bg);
+            padding: 16px 24px;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+        }
+        
+        .search-bar {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 10px 16px;
+            width: 400px;
+            border: 1px solid var(--border);
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            flex: 1;
+            padding: 0 12px;
+            color: var(--text);
+        }
+        
+        .search-bar i {
+            color: var(--primary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-light);
+            object-fit: cover;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary);
+        }
+        
+        .view-all {
+            font-size: 14px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 16px;
+            background: var(--primary-light);
+            transition: all 0.2s;
+        }
+        
+        .view-all:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .event-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.12);
+        }
+        
+        .event-image {
+            height: 160px;
+            overflow: hidden;
+        }
+        
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .event-content {
+            padding: 20px;
+        }
+        
+        .event-date {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+        
+        .event-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+        
+        .event-desc {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        
+        .event-location {
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 16px;
+            gap: 8px;
+        }
+        
+        .event-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn-attend {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            flex: 1;
+            margin-right: 12px;
+            transition: background 0.2s;
+        }
+        
+        .btn-attend:hover {
+            background: #6a48ad;
+        }
+        
+        .btn-save {
+            padding: 10px;
+            background: var(--card-bg);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .btn-save:hover {
+            background: var(--primary-light);
+        }
+        
+        .no-events {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            color: var(--text-light);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 8px;
+        }
+        
+        .pagination button {
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pagination button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .pagination button.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="navigation.js"></script>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>AlumniConnect</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search events, locations, or categories...">
+            </div>
+            <div class="user-profile">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Alex Carter">
+                <span>Alex Carter</span>
+            </div>
+        </div>
+
+        <!-- Events Section -->
+        <div class="section-title">
+            <h2>Upcoming Events</h2>
+            <a href="#" class="view-all">View All Events</a>
+        </div>
+
+        <div class="filters">
+            <div class="filter-btn active">All Events</div>
+            <div class="filter-btn">This Week</div>
+            <div class="filter-btn">This Month</div>
+            <div class="filter-btn">Virtual</div>
+            <div class="filter-btn">In-Person</div>
+            <div class="filter-btn">Networking</div>
+            <div class="filter-btn">Workshops</div>
+        </div>
+
+        <!-- Events Grid -->
+        <div class="events-grid">
+            <!-- Event 1 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80" alt="Tech Conference">
+                </div>
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Sept 28, 2023 • 6:00 PM</span>
+                    </div>
+                    <h3 class="event-title">Annual Tech Innovation Conference</h3>
+                    <p class="event-desc">
+                        Join us for a night of innovation and networking with industry leaders. Discover the latest trends in technology and connect with fellow alumni.
+                    </p>
+                    <div class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Grand Convention Center, San Francisco</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-attend">Attend</button>
+                        <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 2 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Career Workshop">
+                </div>
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Oct 5, 2023 • 4:30 PM</span>
+                    </div>
+                    <h3 class="event-title">Career Development Workshop</h3>
+                    <p class="event-desc">
+                        Enhance your career skills with our expert-led workshop. Topics include resume building, interview techniques, and personal branding.
+                    </p>
+                    <div class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Virtual Event</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-attend">Attend</button>
+                        <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 3 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1551818255-e6e109cbc9cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80" alt="Networking Mixer">
+                </div>
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Oct 12, 2023 • 7:00 PM</span>
+                    </div>
+                    <h3 class="event-title">Alumni Networking Mixer</h3>
+                    <p class="event-desc">
+                        Connect with fellow alumni across different industries. Expand your professional network in a relaxed and friendly environment.
+                    </p>
+                    <div class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Skyline Lounge, New York</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-attend">Attend</button>
+                        <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 4 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Fundraising Gala">
+                </div>
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Oct 20, 2023 • 8:00 PM</span>
+                    </div>
+                    <h3 class="event-title">Annual Fundraising Gala</h3>
+                    <p class="event-desc">
+                        Join us for an elegant evening of dinner and dancing while supporting scholarships for current students. Black tie optional.
+                    </p>
+                    <div class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Grand Ballroom, Chicago</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-attend">Attend</button>
+                        <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 5 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Leadership Summit">
+                </div>
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Nov 3, 2023 • 9:00 AM</span>
+                    </div>
+                    <h3 class="event-title">Leadership Summit</h3>
+                    <p class="event-desc">
+                        Learn from successful alumni leaders about effective leadership strategies, team management, and career advancement.
+                    </p>
+                    <div class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>University Campus, Boston</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-attend">Attend</button>
+                        <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 6 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2064&q=80" alt="Startup Pitch Night">
+                </div>
+                <div class="event-content">
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Nov 15, 2023 • 5:30 PM</span>
+                    </div>
+                    <h3 class="event-title">Startup Pitch Night</h3>
+                    <p class="event-desc">
+                        Watch alumni entrepreneurs pitch their startups to a panel of investors. Great opportunity for networking and discovering new ventures.
+                    </p>
+                    <div class="event-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Innovation Hub, Austin</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-attend">Attend</button>
+                        <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button><i class="fas fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Simple functionality for save buttons
+        document.querySelectorAll('.btn-save').forEach(button => {
+            button.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    this.style.backgroundColor = 'var(--primary-light)';
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    this.style.backgroundColor = 'var(--card-bg)';
+                }
+            });
+        });
+
+        // Filter buttons functionality
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Attend button functionality
+        document.querySelectorAll('.btn-attend').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.textContent === 'Attend') {
+                    this.textContent = 'Attending';
+                    this.style.backgroundColor = 'var(--success)';
+                } else {
+                    this.textContent = 'Attend';
+                    this.style.backgroundColor = 'var(--primary)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

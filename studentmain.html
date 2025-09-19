@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlumniConnect Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7E57C2;
+            --primary-light: #e6dcf8;
+            --primary-lighter: #f4f0ff;
+            --text: #333344;
+            --text-light: #666677;
+            --background: #f9f9fc;
+            --card-bg: #ffffff;
+            --border: #e2e2e9;
+            --card-shadow: 0 4px 12px rgba(126, 87, 194, 0.08);
+            --success: #68b968;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 24px;
+        }
+        
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 32px;
+        }
+        
+        .search-bar {
+            flex: 0 1 500px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            font-size: 16px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .notification-icon {
+            position: relative;
+            font-size: 20px;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--primary);
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-button {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+        
+        .stat-button:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .content-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            min-height: 380px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-count {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-left: auto;
+            background-color: var(--primary-light);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+        
+        .alumni-list {
+            list-style: none;
+            flex-grow: 1;
+        }
+        
+        .alumni-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .alumni-item:last-child {
+            border-bottom: none;
+        }
+        
+        .alumni-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .alumni-title {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .alumni-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .skill-tag {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .job-list {
+            list-style: none;
+            flex-grow: 1;
+        }
+        
+        .job-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .job-item:last-child {
+            border-bottom: none;
+        }
+        
+        .job-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .job-company {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .job-details {
+            display: flex;
+            gap: 12px;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        
+        .job-type {
+            background-color: var(--primary-lighter);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+        
+        .card-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 16px;
+            width: 100%;
+        }
+        
+        .card-button:hover {
+            background-color: #6a48ad;
+        }
+        
+        /* Right Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .profile-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-light);
+            margin: 0 auto 16px;
+        }
+        
+        .profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .profile-title {
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .profile-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .profile-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .profile-stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .profile-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .profile-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            background-color: var(--primary-lighter);
+            color: var(--primary);
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .profile-link:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .profile-link i {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+        
+        .profile-link span {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .suggestions-card, .news-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .suggestions-header, .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .suggestions-title, .news-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .see-all {
+            color: var(--primary);
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .suggestion-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .suggestion-info {
+            flex: 1;
+        }
+        
+        .suggestion-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .suggestion-title {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .suggestion-mutual {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        
+        .connect-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .connect-btn:hover {
+            background-color: #6a48ad;
+        }
+        
+        .news-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .news-headline {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .news-source {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 968px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid, .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="navigation.js"></script>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>AlumniConnect</span>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search for alumni, companies, or posts...">
+            </div>
+            
+            <div class="user-menu">
+                <div class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="user-profile">
+                  <a href="studentprofile.html">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
+                    alt="Alex Carter" 
+                    class="user-avatar cursor-pointer">
+                  </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <h2 class="section-title">
+                <i class="fas fa-chart-line"></i>
+                Dashboard Overview
+            </h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">New Opportunities</div>
+                    </div>
+                    <a href="opportunities.html"><button class="stat-button">View All Opportunities</button></a>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                    <a href="events.html"><button class="stat-button">Explore Events</button></a>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-value">143</div>
+                        <div class="stat-label">Alumni Connections</div>
+                    </div>
+                    <a href="ANetwork.html"><button class="stat-button">Find Alumni</button></a>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Fundraising Campaigns</div>
+                    </div>
+                    <a href="funds.html"><button class="stat-button">Support a Cause</button></a>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-title">
+                        <i class="fas fa-briefcase"></i>
+                        Job Opportunities
+                        <span class="card-count">24 opportunities</span>
+                    </div>
+                    <ul class="job-list">
+                        <li class="job-item">
+                            <div class="job-title">
+                                <span>Senior Data Scientist</span>
+                            </div>
+                            <div class="job-company">TechCorp International</div>
+                            <div class="job-details">
+                                <span><i class="fas fa-map-marker-alt"></i> San Francisco, CA</span>
+                                <span><i class="far fa-clock"></i> Posted 2 days ago</span>
+                            </div>
+                            <div class="job-type">Full-time</div>
+                        </li>
+                        <li class="job-item">
+                            <div class="job-title">
+                                <span>Software Engineer Intern</span>
+                            </div>
+                            <div class="job-company">InnovateSoft</div>
+                            <div class="job-details">
+                                <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                                <span><i class="far fa-clock"></i> Posted 5 days ago</span>
+                            </div>
+                            <div class="job-type">Internship</div>
+                        </li>
+                    </ul>
+                    <a href="opportunities.html"><button class="card-button">View All Opportunities</button></a>
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        Upcoming Events
+                        <span class="card-count">8 events</span>
+                    </div>
+                    <p>No upcoming events. Check back later!</p>
+                    <div style="flex-grow: 1;"></div>
+                    <a href="events.html"><button class="card-button">Explore Events</button></a>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-title">
+                        <i class="fas fa-users"></i>
+                        Alumni Network
+                        <span class="card-count">143 connections</span>
+                    </div>
+                    <ul class="alumni-list">
+                        <li class="alumni-item">
+                            <div class="alumni-name">Michael Chen</div>
+                            <div class="alumni-title">Lead Data Scientist</div>
+                            <div class="alumni-skills">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">ML</span>
+                            </div>
+                        </li>
+                        <li class="alumni-item">
+                            <div class="alumni-name">Sarah Johnson</div>
+                            <div class="alumni-title">Data Engineering Manager</div>
+                            <div class="alumni-skills">
+                                <span class="skill-tag">Spark</span>
+                                <span class="skill-tag">AWS</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="ANetwork.html"><button class="card-button">Find Alumni</button></a>
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-title">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        Fundraising
+                        <span class="card-count">5 campaigns</span>
+                    </div>
+                    <p>Current fundraising initiatives will be displayed here.</p>
+                    <div style="flex-grow: 1;"></div>
+                    <a href="funds.html"><button class="card-button">Support a Cause</button></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Sidebar -->
+        <div class="sidebar">
+            <div class="profile-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Alex Carter" class="profile-avatar">
+                <h2 class="profile-name">Alex Carter</h2>
+                <div class="profile-title">Computer Science Student</div>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">423</div>
+                        <div class="profile-stat-label">Connections</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value">12</div>
+                        <div class="profile-stat-label">Followers</div>
+                    </div>
+                </div>
+                
+                <div class="profile-links">
+                    <a href="studentprofile.html" class="profile-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#" class="profile-link">
+                        <i class="fas fa-bookmark"></i>
+                        <span>Saved Items</span>
+                    </a>
+                    <a href="#" class="profile-link">
+                        <i class="fas fa-users"></i>
+                        <span>Groups</span>
+                    </a>
+                    <a href="events.html" class="profile-link">
+                        <i class="fas fa-calendar"></i>
+                        <span>Events</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="suggestions-card">
+                <div class="suggestions-header">
+                    <h3 class="suggestions-title">People you may know</h3>
+                    <a href="#" class="see-all">See all</a>
+                </div>
+                
+                <div class="suggestion-item">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="David Wilson" class="suggestion-avatar">
+                    <div class="suggestion-info">
+                        <div class="suggestion-name">David Wilson</div>
+                        <div class="suggestion-title">Data Scientist at AnalyticsCo</div>
+                        <div class="suggestion-mutual">12 mutual connections</div>
+                    </div>
+                    <button class="connect-btn">Connect</button>
+                </div>
+                
+                <div class="suggestion-item">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Jessica Lee" class="suggestion-avatar">
+                    <div class="suggestion-info">
+                        <div class="suggestion-name">Jessica Lee</div>
+                        <div class="suggestion-title">UX Designer at CreativeLabs</div>
+                        <div class="suggestion-mutual">8 mutual connections</div>
+                    </div>
+                    <button class="connect-btn">Connect</button>
+                </div>
+                
+                <div class="suggestion-item">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Ryan Patel" class="suggestion-avatar">
+                    <div class="suggestion-info">
+                        <div class="suggestion-name">Ryan Patel</div>
+                        <div class="suggestion-title">Product Manager at TechStart</div>
+                        <div class="suggestion-mutual">5 mutual connections</div>
+                    </div>
+                    <button class="connect-btn">Connect</button>
+                </div>
+            </div>
+            
+            <div class="news-card">
+                <div class="news-header">
+                    <h3 class="news-title">Alumni news</h3>
+                    <a href="#" class="see-all">See all</a>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-headline">University launches new mentorship program</div>
+                    <div class="news-source">University News • 1d ago</div>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-headline">Tech industry hiring trends for 2023</div>
+                    <div class="news-source">Industry Insights • 2d ago</div>
+                </div>
+                
+                <div class="news-item">
+                    <div class="news-headline">Annual alumni reunion scheduled for next month</div>
+                    <div class="news-source">Alumni Affairs • 3d ago</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple interactivity for connect buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const connectButtons = document.querySelectorAll('.connect-btn');
+            
+            connectButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.textContent === 'Connect') {
+                        this.textContent = 'Pending';
+                        this.style.backgroundColor = '#e6dcf8';
+                        this.style.color = '#7E57C2';
+                    } else {
+                        this.textContent = 'Connect';
+                        this.style.backgroundColor = '#7E57C2';
+                        this.style.color = 'white';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

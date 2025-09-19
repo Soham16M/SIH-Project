@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundraising - AlumniConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7E57C2;
+            --primary-light: #e6dcf8;
+            --primary-lighter: #f4f0ff;
+            --text: #333344;
+            --text-light: #666677;
+            --background: #f9f9fc;
+            --card-bg: #ffffff;
+            --border: #e2e2e9;
+            --card-shadow: 0 4px 12px rgba(126, 87, 194, 0.08);
+            --success: #68b968;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--card-bg);
+            padding: 16px 24px;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+        }
+        
+        .search-bar {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 10px 16px;
+            width: 400px;
+            border: 1px solid var(--border);
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            flex: 1;
+            padding: 0 12px;
+            color: var(--text);
+        }
+        
+        .search-bar i {
+            color: var(--primary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-light);
+            object-fit: cover;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary);
+        }
+        
+        .view-all {
+            font-size: 14px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 16px;
+            background: var(--primary-light);
+            transition: all 0.2s;
+        }
+        
+        .view-all:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        
+        .campaigns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .campaign-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s;
+        }
+        
+        .campaign-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.12);
+        }
+        
+        .campaign-image {
+            height: 160px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .campaign-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .campaign-category {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .campaign-content {
+            padding: 20px;
+        }
+        
+        .campaign-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+        
+        .campaign-desc {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        
+        .progress-container {
+            height: 8px;
+            background: var(--primary-lighter);
+            border-radius: 4px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .campaign-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        
+        .raised {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .goal {
+            color: var(--text-light);
+        }
+        
+        .campaign-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn-donate {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            flex: 1;
+            margin-right: 12px;
+            transition: background 0.2s;
+        }
+        
+        .btn-donate:hover {
+            background: #6a48ad;
+        }
+        
+        .btn-share {
+            padding: 10px;
+            background: var(--card-bg);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .btn-share:hover {
+            background: var(--primary-light);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 8px;
+        }
+        
+        .pagination button {
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pagination button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .pagination button.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .campaigns-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="navigation.js"></script>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>AlumniConnect</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search campaigns, categories, or causes...">
+            </div>
+            <div class="user-profile">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Alex Carter">
+                <span>Alex Carter</span>
+            </div>
+        </div>
+
+        <!-- Fundraising Section -->
+        <div class="section-title">
+            <h2>Fundraising Campaigns</h2>
+            <a href="#" class="view-all">Start a Campaign</a>
+        </div>
+
+        <div class="filters">
+            <div class="filter-btn active">All Campaigns</div>
+            <div class="filter-btn">Scholarships</div>
+            <div class="filter-btn">Student Projects</div>
+            <div class="filter-btn">Emergency Aid</div>
+            <div class="filter-btn">Research</div>
+            <div class="filter-btn">Nearly Funded</div>
+            <div class="filter-btn">Newest</div>
+        </div>
+
+        <!-- Campaigns Grid -->
+        <div class="campaigns-grid">
+            <!-- Campaign 1 -->
+            <div class="campaign-card">
+                <div class="campaign-image">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Scholarship Fund">
+                    <div class="campaign-category">Scholarship</div>
+                </div>
+                <div class="campaign-content">
+                    <h3 class="campaign-title">STEM Scholarship for Underrepresented Students</h3>
+                    <p class="campaign-desc">
+                        Help talented students from underrepresented backgrounds pursue degrees in STEM fields. Your donation covers tuition, books, and living expenses.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 75%"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span class="raised">$37,500 raised</span>
+                        <span class="goal">of $50,000</span>
+                    </div>
+                    <div class="campaign-actions">
+                        <button class="btn-donate">Donate Now</button>
+                        <button class="btn-share"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign 2 -->
+            <div class="campaign-card">
+                <div class="campaign-image">
+                    <img src="https://images.unsplash.com/photo-1591123120675-6f7f1aae0e5b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80" alt="Student Project">
+                    <div class="campaign-category">Student Project</div>
+                </div>
+                <div class="campaign-content">
+                    <h3 class="campaign-title">Solar-Powered Water Purification System</h3>
+                    <p class="campaign-desc">
+                        Support our engineering students developing an affordable solar-powered water purification system for communities with limited access to clean water.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 40%"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span class="raised">$8,000 raised</span>
+                        <span class="goal">of $20,000</span>
+                    </div>
+                    <div class="campaign-actions">
+                        <button class="btn-donate">Donate Now</button>
+                        <button class="btn-share"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign 3 -->
+            <div class="campaign-card">
+                <div class="campaign-image">
+                    <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Emergency Aid">
+                    <div class="campaign-category">Emergency Aid</div>
+                </div>
+                <div class="campaign-content">
+                    <h3 class="campaign-title">Emergency Housing for International Students</h3>
+                    <p class="campaign-desc">
+                        Provide emergency housing and support for international students facing unexpected crises or displacement during their studies abroad.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 90%"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span class="raised">$27,000 raised</span>
+                        <span class="goal">of $30,000</span>
+                    </div>
+                    <div class="campaign-actions">
+                        <button class="btn-donate">Donate Now</button>
+                        <button class="btn-share"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign 4 -->
+            <div class="campaign-card">
+                <div class="campaign-image">
+                    <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Research">
+                    <div class="campaign-category">Research</div>
+                </div>
+                <div class="campaign-content">
+                    <h3 class="campaign-title">Climate Change Research Expedition</h3>
+                    <p class="campaign-desc">
+                        Fund a student research expedition to study the effects of climate change on coastal ecosystems. Help gather critical data for environmental conservation.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 60%"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span class="raised">$12,000 raised</span>
+                        <span class="goal">of $20,000</span>
+                    </div>
+                    <div class="campaign-actions">
+                        <button class="btn-donate">Donate Now</button>
+                        <button class="btn-share"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign 5 -->
+            <div class="campaign-card">
+                <div class="campaign-image">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Technology">
+                    <div class="campaign-category">Technology</div>
+                </div>
+                <div class="campaign-content">
+                    <h3 class="campaign-title">Computer Lab Upgrade Initiative</h3>
+                    <p class="campaign-desc">
+                        Help upgrade our university's computer lab with the latest technology to ensure students have access to cutting-edge tools for their education.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 30%"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span class="raised">$15,000 raised</span>
+                        <span class="goal">of $50,000</span>
+                    </div>
+                    <div class="campaign-actions">
+                        <button class="btn-donate">Donate Now</button>
+                        <button class="btn-share"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campaign 6 -->
+            <div class="campaign-card">
+                <div class="campaign-image">
+                    <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Mental Health">
+                    <div class="campaign-category">Student Wellness</div>
+                </div>
+                <div class="campaign-content">
+                    <h3 class="campaign-title">Mental Health Support Program</h3>
+                    <p class="campaign-desc">
+                        Fund counseling services, mental health workshops, and wellness resources for students facing stress, anxiety, and other mental health challenges.
+                    </p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 55%"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span class="raised">$16,500 raised</span>
+                        <span class="goal">of $30,000</span>
+                    </div>
+                    <div class="campaign-actions">
+                        <button class="btn-donate">Donate Now</button>
+                        <button class="btn-share"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button><i class="fas fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Filter buttons functionality
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Donate button functionality
+        document.querySelectorAll('.btn-donate').forEach(button => {
+            button.addEventListener('click', function() {
+                const campaignTitle = this.closest('.campaign-card').querySelector('.campaign-title').textContent;
+                alert(`Thank you for your interest in donating to: ${campaignTitle}`);
+            });
+        });
+
+        // Share button functionality
+        document.querySelectorAll('.btn-share').forEach(button => {
+            button.addEventListener('click', function() {
+                const campaignTitle = this.closest('.campaign-card').querySelector('.campaign-title').textContent;
+                alert(`Share this campaign: ${campaignTitle}`);
+            });
+        });
+    </script>
+</body>
+</html>

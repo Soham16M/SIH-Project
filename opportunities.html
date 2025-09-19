@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Opportunities - AlumniConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7E57C2;
+            --primary-light: #e6dcf8;
+            --primary-lighter: #f4f0ff;
+            --text: #333344;
+            --text-light: #666677;
+            --background: #f9f9fc;
+            --card-bg: #ffffff;
+            --border: #e2e2e9;
+            --card-shadow: 0 4px 12px rgba(126, 87, 194, 0.08);
+            --success: #68b968;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px 24px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+        }
+        
+        .search-bar {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 8px 16px;
+            box-shadow: var(--card-shadow);
+            width: 350px;
+            border: 1px solid var(--border);
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 0 12px;
+            background: transparent;
+            color: var(--text);
+        }
+        
+        .search-bar i {
+            color: var(--primary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-light);
+            object-fit: cover;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary);
+        }
+        
+        .opportunity-count {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        
+        .job-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(126, 87, 194, 0.12);
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .job-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        
+        .company {
+            font-size: 16px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .job-details {
+            display: flex;
+            gap: 16px;
+            color: var(--text-light);
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+        
+        .job-details span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .alumni-posted {
+            display: flex;
+            align-items: center;
+            margin: 16px 0;
+            padding: 12px;
+            background: var(--primary-lighter);
+            border-radius: 12px;
+        }
+        
+        .alumni-posted img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 12px;
+            border: 2px solid var(--primary-light);
+            object-fit: cover;
+        }
+        
+        .job-description {
+            color: var(--text-light);
+            margin-bottom: 16px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .job-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn-apply {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        
+        .btn-apply:hover {
+            background: #6a48ad;
+        }
+        
+        .btn-save {
+            padding: 12px 24px;
+            background: var(--card-bg);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .btn-save:hover {
+            background: var(--primary-light);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 32px;
+            gap: 8px;
+        }
+        
+        .pagination button {
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pagination button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .pagination button.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .job-details {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .job-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="navigation.js"></script>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>AlumniConnect</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search jobs, companies, or alumni...">
+            </div>
+            <div class="user-profile">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Alex Carter">
+                <span>Alex Carter</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="section-title">
+                <h2>Job Opportunities</h2>
+                <span class="opportunity-count">24 opportunities</span>
+            </div>
+
+            <div class="filters">
+                <div class="filter-btn active">All</div>
+                <div class="filter-btn">Full-time</div>
+                <div class="filter-btn">Part-time</div>
+                <div class="filter-btn">Internship</div>
+                <div class="filter-btn">Remote</div>
+            </div>
+
+            <!-- Job Listings -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Senior Data Scientist</div>
+                        <div class="company">TechCorp International</div>
+                        <div class="job-details">
+                            <span><i class="fas fa-map-marker-alt"></i> San Francisco, CA</span>
+                            <span><i class="far fa-clock"></i> Posted 2 days ago</span>
+                            <span><i class="fas fa-business-time"></i> Full-time</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="alumni-posted">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Sarah Johnson">
+                    <span>Posted by Sarah Johnson (Class of '2018)</span>
+                </div>
+                <div class="job-description">
+                    We're looking for a Senior Data Scientist to join our growing team. You'll work on challenging problems using large datasets, develop machine learning models, and provide data-driven insights to drive business decisions.
+                </div>
+                <div class="job-actions">
+                    <button class="btn-apply">Apply Now</button>
+                    <button class="btn-save">Save</button>
+                </div>
+            </div>
+
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Software Engineer Intern</div>
+                        <div class="company">InnovateSoft</div>
+                        <div class="job-details">
+                            <span><i class="fas fa-map-marker-alt"></i> Remote</span>
+                            <span><i class="far fa-clock"></i> Posted 5 days ago</span>
+                            <span><i class="fas fa-business-time"></i> Internship</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="alumni-posted">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Michael Chen">
+                    <span>Posted by Michael Chen (Class of '2020)</span>
+                </div>
+                <div class="job-description">
+                    Join our engineering team as an intern and work on real projects that impact our customers. You'll learn from experienced developers, contribute to our codebase, and develop your skills in a supportive environment.
+                </div>
+                <div class="job-actions">
+                    <button class="btn-apply">Apply Now</button>
+                    <button class="btn-save">Save</button>
+                </div>
+            </div>
+
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Product Manager</div>
+                        <div class="company">NextGen Solutions</div>
+                        <div class="job-details">
+                            <span><i class="fas fa-map-marker-alt"></i> New York, NY</span>
+                            <span><i class="far fa-clock"></i> Posted 1 week ago</span>
+                            <span><i class="fas fa-business-time"></i> Full-time</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="alumni-posted">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Jessica Williams">
+                    <span>Posted by Jessica Williams (Class of '2015)</span>
+                </div>
+                <div class="job-description">
+                    We're seeking an experienced Product Manager to lead our product development initiatives. You'll work with cross-functional teams, define product vision, and drive product strategy from conception to launch.
+                </div>
+                <div class="job-actions">
+                    <button class="btn-apply">Apply Now</button>
+                    <button class="btn-save">Save</button>
+                </div>
+            </div>
+
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">UX/UI Designer</div>
+                        <div class="company">CreativeLabs</div>
+                        <div class="job-details">
+                            <span><i class="fas fa-map-marker-alt"></i> Austin, TX</span>
+                            <span><i class="far fa-clock"></i> Posted 3 days ago</span>
+                            <span><i class="fas fa-business-time"></i> Full-time</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="alumni-posted">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Emily Rodriguez">
+                    <span>Posted by Emily Rodriguez (Class of '2019)</span>
+                </div>
+                <div class="job-description">
+                    Join our design team to create beautiful and functional user experiences. You'll collaborate with product managers and developers to design interfaces that delight users and solve real problems.
+                </div>
+                <div class="job-actions">
+                    <button class="btn-apply">Apply Now</button>
+                    <button class="btn-save">Save</button>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button><i class="fas fa-chevron-left"></i> Previous</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>Next <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple functionality for save buttons
+        document.querySelectorAll('.btn-save').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.textContent === 'Save') {
+                    this.textContent = 'Saved';
+                    this.style.backgroundColor = 'var(--primary-light)';
+                    this.style.borderColor = 'var(--primary-light)';
+                } else {
+                    this.textContent = 'Save';
+                    this.style.backgroundColor = 'var(--card-bg)';
+                    this.style.borderColor = 'var(--primary)';
+                }
+            });
+        });
+
+        // Filter buttons functionality
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
